@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "GlobeBotter API (Express)",
+      "cwd": "server",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "npm run dev"],
+      "port": 5000
+    },
+    {
+      "name": "GlobeBotter Client (Next.js)",
+      "cwd": "client",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "npm run dev"],
+      "port": 3000
+    }
+  ]
+}

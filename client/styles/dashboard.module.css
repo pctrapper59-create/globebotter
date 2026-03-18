@@ -1,0 +1,105 @@
+.page { min-height: 100vh; background: var(--bg-base); }
+.main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.pageTitle { color: var(--white); font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem; }
+
+.successBanner {
+  background: rgba(0,200,150,0.12); border: 1px solid var(--green);
+  border-radius: 10px; color: var(--green); font-weight: 600;
+  padding: 0.9rem 1.25rem; margin-bottom: 1.5rem;
+}
+
+/* Tabs */
+.tabs { display: flex; gap: 0.25rem; border-bottom: 1px solid var(--border); margin-bottom: 1.75rem; }
+.tab {
+  background: none; border: none; color: var(--muted); cursor: pointer;
+  font-size: 0.95rem; font-weight: 600; padding: 0.6rem 1.25rem;
+  border-bottom: 2px solid transparent; display: flex; align-items: center; gap: 0.5rem;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tab:hover    { color: var(--white); }
+.tabActive    { color: var(--green); border-bottom-color: var(--green); }
+.badge {
+  background: var(--green); color: #050a18; border-radius: 999px;
+  font-size: 0.7rem; font-weight: 800; padding: 0.1rem 0.5rem;
+}
+
+/* Bot grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.botCard {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.4rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  transition: border-color 0.2s;
+}
+.botCard:hover { border-color: #2a3a5a; }
+
+.botCardTop { display: flex; align-items: center; gap: 0.9rem; }
+.botEmoji   { font-size: 2.25rem; }
+.botName    { color: var(--white); font-size: 1rem; font-weight: 700; margin: 0; }
+.catBadge   {
+  display: inline-block;
+  background: rgba(74,158,255,0.12); color: var(--blue);
+  border-radius: 999px; font-size: 0.72rem; font-weight: 700;
+  padding: 0.15rem 0.6rem; text-transform: uppercase;
+}
+.botMeta { color: var(--muted); font-size: 0.82rem; }
+
+.activeTag { color: var(--green); font-weight: 700; font-size: 0.875rem; }
+
+.btnDeploy {
+  background: var(--green); border: none; border-radius: 8px;
+  color: #050a18; cursor: pointer; font-size: 0.9rem; font-weight: 700;
+  padding: 0.55rem 1rem; transition: background 0.15s; align-self: flex-start;
+}
+.btnDeploy:hover:not(:disabled) { background: var(--green-light); }
+.btnDeploy:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.statusTag { border-radius: 999px; font-size: 0.78rem; font-weight: 700; padding: 0.2rem 0.7rem; align-self: flex-start; }
+.statusActive   { background: rgba(0,200,150,0.12); color: var(--green); }
+.statusInactive { background: rgba(255,107,107,0.12); color: #ff6b6b; }
+
+/* Deployments list */
+.depList { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.depRow {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1rem 1.25rem;
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+}
+.depInfo  { display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 160px; }
+.depName  { color: var(--white); font-weight: 700; font-size: 0.95rem; }
+.depCat   {
+  background: rgba(74,158,255,0.12); color: var(--blue);
+  border-radius: 999px; font-size: 0.72rem; font-weight: 600;
+  padding: 0.15rem 0.6rem;
+}
+.depMeta  { display: flex; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.82rem; flex: 1; }
+.dot      { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.depDate  {}
+
+.depActions { display: flex; gap: 0.5rem; }
+
+.btnRun {
+  background: rgba(74,158,255,0.12); border: 1px solid var(--blue);
+  border-radius: 8px; color: var(--blue); cursor: pointer;
+  font-size: 0.82rem; font-weight: 700; padding: 0.35rem 0.9rem;
+  transition: background 0.15s;
+}
+.btnRun:hover { background: rgba(74,158,255,0.22); }
+
+.btnStop {
+  background: rgba(255,107,107,0.12); border: 1px solid #ff6b6b;
+  border-radius: 8px; color: #ff6b6b; cursor: pointer;
+  font-size: 0.82rem; font-weight: 700; padding: 0.35rem 0.9rem;
+  transition: background 0.15s;
+}
+.btnStop:hover { background: rgba(255,107,107,0.22); }
+
+.empty { color: var(--muted); font-size: 0.95rem; padding: 2rem 0; }
+.link  { color: var(--green); font-weight: 600; }
+.link:hover { text-decoration: underline; }

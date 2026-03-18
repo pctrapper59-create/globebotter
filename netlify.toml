@@ -1,0 +1,30 @@
+[build]
+  # Root of the monorepo
+  base         = ""
+  # Install deps for both server + client, then build the Next.js app
+  command      = "cd server && npm install && cd ../client && npm install && npm run build"
+  # Next.js output directory
+  publish      = "client/.next"
+  # Serverless functions directory
+  functions    = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# ── Next.js plugin (SSR, ISR, image optimisation on Netlify) ─────────────────
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# ── Route all /api/* calls to the Express serverless function ────────────────
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/api/:splat"
+  status = 200
+  force  = true
+
+# ── Stripe webhook (raw body required — same function, special header) ────────
+[[redirects]]
+  from   = "/api/payments/webhook"
+  to     = "/.netlify/functions/api/payments/webhook"
+  status = 200
+  force  = true

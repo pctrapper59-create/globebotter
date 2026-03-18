@@ -1,0 +1,16 @@
+{
+  "name": "globebotter",
+  "version": "1.0.0",
+  "description": "AI bot marketplace",
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "test": "cd server && npm test",
+    "install:all": "cd server && npm install && cd ../client && npm install",
+    "build": "cd client && npm install && npm run build"
+  },
+  "dependencies": {
+    "@netlify/plugin-nextjs": "^5.15.9",
+    "@stripe/stripe-js": "^8.11.0"
+  }
+}

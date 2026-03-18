@@ -1,0 +1,44 @@
+/**
+ * Express app factory.
+ * Separated from index.js so tests can import without starting a listener.
+ *
+ * NOTE: Stripe webhook route must receive a raw Buffer — it is registered
+ * BEFORE express.json() using express.raw().
+ */
+const express = require('express');
+const cors    = require('cors');
+
+const authRoutes    = require('./routes/auth');
+const botRoutes     = require('./routes/bots');
+const paymentRoutes = require('./routes/payments');
+const sellerRoutes     = require('./routes/seller');
+const deploymentRoutes = require('./routes/deployments');
+const botRunRoutes     = require('./routes/botRun');
+
+const app = express();
+
+app.use(cors());
+
+// Stripe webhook needs the raw body — mount BEFORE express.json()
+app.use(
+  '/api/payments/webhook',
+  express.raw({ type: 'application/json' })
+);
+
+app.use(express.json());
+
+// Routes
+app.use('/api/auth',     authRoutes);
+app.use('/api/bots',     botRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/seller',      sellerRoutes);
+app.use('/api/deployments', deploymentRoutes);
+app.use('/api/run',         botRunRoutes);
+
+// Health check
+app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
+
+// 404 fallback
+app.use((_req, res) => res.status(404).json({ error: 'Not found' }));
+
+module.exports = app;

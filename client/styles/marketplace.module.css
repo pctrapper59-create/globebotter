@@ -1,0 +1,260 @@
+/* Marketplace page — dark tech theme matching GlobeBotter mockup */
+
+/* ── Page shell ─────────────────────────────────────────────────────────── */
+.page {
+  min-height: 100vh;
+  background: #0d0f1a;
+  color: #ccd6f6;
+  font-family: sans-serif;
+  padding-bottom: 4rem;
+}
+
+/* ── Hero ────────────────────────────────────────────────────────────────── */
+.hero {
+  text-align: center;
+  padding: 4rem 1rem 2.5rem;
+  background: linear-gradient(180deg, #0d0f1a 0%, #111527 100%);
+}
+
+.heroTitle {
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 0.5rem;
+}
+
+.heroAccent {
+  color: #00c896;
+}
+
+.heroSub {
+  color: #8892b0;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* ── Category filter bar ─────────────────────────────────────────────────── */
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+}
+
+.filterPill {
+  background: transparent;
+  border: 1px solid #2a2f4a;
+  border-radius: 999px;
+  color: #8892b0;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.4rem 1.1rem;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.filterPill:hover {
+  border-color: #00c896;
+  color: #00c896;
+}
+
+.filterPillActive {
+  background: #00c896;
+  border-color: #00c896;
+  color: #0d0f1a;
+}
+
+/* ── Bot grid ────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── Bot card ────────────────────────────────────────────────────────────── */
+.card {
+  background: #161a2e;
+  border: 1px solid #2a2f4a;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  border-color: #00c896;
+  box-shadow: 0 4px 24px rgba(0, 200, 150, 0.12);
+  transform: translateY(-2px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+}
+
+.badge {
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.botName {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.botDescription {
+  color: #8892b0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.price {
+  color: #00c896;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.pricePer {
+  color: #8892b0;
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.deployBtn {
+  background: #00c896;
+  border: none;
+  border-radius: 8px;
+  color: #0d0f1a;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.45rem 1rem;
+  transition: background 0.2s;
+}
+
+.deployBtn:hover {
+  background: #00e6ad;
+}
+
+/* ── Search + Sort toolbar ───────────────────────────────────────────────── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem 0;
+}
+
+.searchBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  font-size: 1rem;
+  color: #8892b0;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.searchInput {
+  width: 100%;
+  background: #161a2e;
+  border: 1px solid #2a2f4a;
+  border-radius: 8px;
+  color: #ccd6f6;
+  font-size: 0.95rem;
+  padding: 0.55rem 2.25rem 0.55rem 2.4rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.searchInput::placeholder {
+  color: #8892b0;
+}
+
+.searchInput:focus {
+  border-color: #00c896;
+}
+
+.clearBtn {
+  position: absolute;
+  right: 0.6rem;
+  background: transparent;
+  border: none;
+  color: #8892b0;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0 0.2rem;
+  transition: color 0.15s;
+}
+
+.clearBtn:hover {
+  color: #ccd6f6;
+}
+
+.sortSelect {
+  background: #161a2e;
+  border: 1px solid #2a2f4a;
+  border-radius: 8px;
+  color: #ccd6f6;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.55rem 0.9rem;
+  outline: none;
+  transition: border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.sortSelect:focus,
+.sortSelect:hover {
+  border-color: #00c896;
+}
+
+/* ── State messages ──────────────────────────────────────────────────────── */
+.stateMsg {
+  color: #8892b0;
+  font-size: 1rem;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.errorMsg {
+  color: #ff6b6b;
+  font-size: 1rem;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 0;
+}

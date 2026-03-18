@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+client/.next/
+client/out/
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# Netlify
+.netlify/
+
+# Stripe CLI + temp files
+stripe-cli/
+stripe-cli.zip
+download-stripe.js
+unzip-stripe.js
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

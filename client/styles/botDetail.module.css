@@ -1,0 +1,170 @@
+.page { min-height: 100vh; background: var(--bg-base); }
+
+.main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── Loading / error states ───────────────────────────────────────────────── */
+.center {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 60vh; color: var(--muted); font-size: 1.1rem;
+}
+
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.notFound {
+  display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  color: var(--muted);
+}
+.notFoundEmoji { font-size: 3rem; }
+
+/* ── Back link ────────────────────────────────────────────────────────────── */
+.backLink {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  margin-bottom: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: color 0.15s;
+}
+.backLink:hover { color: var(--green); }
+
+/* ── Bot header ───────────────────────────────────────────────────────────── */
+.header {
+  display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.5rem;
+}
+.botEmoji { font-size: 3.5rem; }
+.category {
+  display: inline-block;
+  background: rgba(0,200,150,0.12); color: var(--green);
+  border-radius: 999px; font-size: 0.78rem; font-weight: 700;
+  padding: 0.2rem 0.75rem; margin-bottom: 0.4rem; text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.name { color: var(--white); font-size: 2rem; font-weight: 800; margin: 0; }
+
+.description {
+  color: var(--muted); font-size: 1.05rem; line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+/* ── Feature highlights ───────────────────────────────────────────────────── */
+.features {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.featuresTitle {
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.9rem;
+}
+
+.featureList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.featureCheck {
+  color: var(--green);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* ── Purchase options ─────────────────────────────────────────────────────── */
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 540px) { .options { grid-template-columns: 1fr; } }
+
+.optionCard {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.5rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+  position: relative;
+}
+.optionCardSub {
+  border-color: var(--green);
+  background: linear-gradient(135deg, #111827 0%, #0d1f18 100%);
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--green);
+  color: #050a18;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.optionLabel { color: var(--muted); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.optionPrice { color: var(--white); font-size: 2rem; font-weight: 800; }
+.mo          { color: var(--muted); font-size: 1rem; font-weight: 400; }
+.optionNote  { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.5rem; }
+
+.btnBuy {
+  background: var(--blue); border: none; border-radius: 8px;
+  color: var(--white); font-size: 1rem; font-weight: 700;
+  padding: 0.7rem; cursor: pointer; transition: background 0.15s;
+  margin-top: auto;
+}
+.btnBuy:hover:not(:disabled) { background: var(--blue-light); }
+
+.btnSub {
+  background: var(--green); border: none; border-radius: 8px;
+  color: #050a18; font-size: 1rem; font-weight: 700;
+  padding: 0.7rem; cursor: pointer; transition: background 0.15s;
+  margin-top: auto;
+}
+.btnSub:hover:not(:disabled) { background: var(--green-light); }
+
+.btnBuy:disabled, .btnSub:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.error {
+  color: #ff6b6b; background: rgba(255,107,107,0.1);
+  border-radius: 8px; padding: 0.75rem 1rem;
+  font-size: 0.9rem; margin-top: 1rem;
+}

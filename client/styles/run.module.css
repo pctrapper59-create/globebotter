@@ -1,0 +1,180 @@
+/* ── Run page ─────────────────────────────────────────────────────────────── */
+.page  { min-height: 100vh; background: var(--bg-base); }
+
+.main  {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.back {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: color 0.2s, border-color 0.2s;
+}
+.back:hover { color: var(--text); border-color: var(--blue); }
+
+.title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.botEmoji { font-size: 1.5rem; }
+
+/* ── Chat box ── */
+.chatBox {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  min-height: 340px;
+  max-height: 500px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.placeholder {
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+  margin: auto;
+}
+
+/* ── Message bubbles ── */
+.msg {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-width: 80%;
+}
+
+.msgUser {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.msgBot {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.msgLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.msgContent {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.msgUser .msgContent {
+  background: linear-gradient(135deg, #1a3a6e 0%, #0f2447 100%);
+  border-color: var(--blue);
+  color: var(--white);
+}
+
+.msgBot .msgContent {
+  background: var(--bg-card);
+  border-color: var(--green);
+}
+
+/* ── Typing dots ── */
+.dots {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  height: 20px;
+}
+
+.dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: bounce 1.2s infinite ease-in-out;
+}
+.dots span:nth-child(2) { animation-delay: 0.2s; }
+.dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40%            { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ── Error ── */
+.error {
+  color: #ff6b6b;
+  font-size: 0.875rem;
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.25);
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+}
+
+/* ── Input form ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.input {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 0.95rem;
+  padding: 0.9rem 1.1rem;
+  resize: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  line-height: 1.5;
+}
+.input:focus { outline: none; border-color: var(--blue); }
+.input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.sendBtn {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #1a5cff, #0044cc);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.sendBtn:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+.sendBtn:disabled { opacity: 0.45; cursor: not-allowed; }
