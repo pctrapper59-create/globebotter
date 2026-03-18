@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@netlify/plugin-nextjs": "^5.15.9",
-    "@stripe/stripe-js": "^8.11.0"
+    "@stripe/stripe-js": "^8.11.0",
+    "serverless-http": "^4.0.0"
   }
 }

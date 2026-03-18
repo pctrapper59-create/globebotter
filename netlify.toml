@@ -2,7 +2,7 @@
   # Root of the monorepo
   base         = ""
   # Install deps for both server + client, then build the Next.js app
-  command      = "cd server && npm install && cd ../client && npm install && npm run build"
+  command      = "npm install && cd server && npm install && cd ../client && npm install && npm run build"
   # Next.js output directory
   publish      = "client/.next"
   # Serverless functions directory
