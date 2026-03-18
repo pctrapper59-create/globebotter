@@ -1,0 +1,91 @@
+/**
+ * Seeds the database with the 3 flagship bots + an admin user.
+ * Run: node database/seed.js
+ */
+const path = require('path');
+const fs   = require('fs');
+
+// Load .env manually
+const envPath = path.join(__dirname, '../.env');
+fs.readFileSync(envPath, 'utf8').split('\n').forEach(line => {
+  const m = line.match(/^([^#=\s]+)\s*=\s*(.*)/);
+  if (m) process.env[m[1]] = m[2].trim();
+});
+
+const pgPath = path.join(__dirname, '../server/node_modules/pg');
+const { Client } = require(pgPath);
+
+const bcryptPath = path.join(__dirname, '../server/node_modules/bcryptjs');
+const bcrypt = require(bcryptPath);
+
+async function main() {
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+  });
+
+  await client.connect();
+  console.log('Connected!');
+
+  // ── 1. Add slug column if missing ────────────────────────────────────────
+  await client.query(`
+    ALTER TABLE bots ADD COLUMN IF NOT EXISTS slug VARCHAR(100) UNIQUE;
+  `);
+  console.log('slug column ready');
+
+  // ── 2. Create admin/seller user ───────────────────────────────────────────
+  const hash = await bcrypt.hash('Admin1234!', 10);
+  const userRes = await client.query(`
+    INSERT INTO users (name, email, password, role)
+    VALUES ('GlobeBotter Admin', 'admin@globebotter.com', $1, 'seller')
+    ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name
+    RETURNING id
+  `, [hash]);
+  const adminId = userRes.rows[0].id;
+  console.log('Admin user id:', adminId);
+
+  // ── 3. Seed the 3 featured bots ───────────────────────────────────────────
+  const bots = [
+    {
+      slug: 'ai-automation-suite',
+      name: 'AI Automation Suite',
+      description: 'The ultimate all-in-one automation suite. Automate your entire workflow, save hours of work daily, and grow your business with AI-powered tools that work 24/7. Includes lead gen, outreach, social media scheduling, and analytics in one powerful package.',
+      price: 297.00,
+      category: 'custom',
+    },
+    {
+      slug: 'ai-lead-generator',
+      name: 'AI Lead Generator Bot',
+      description: 'Find and extract local business leads on autopilot. Search any city and niche, extract contact details including emails and phone numbers, and export to CSV instantly. Perfect for agencies, freelancers, and sales teams looking to fill their pipeline fast.',
+      price: 97.00,
+      category: 'marketing',
+    },
+    {
+      slug: 'ai-outreach-bot',
+      name: 'AI Outreach Message Bot',
+      description: 'Send personalized AI-written cold outreach emails at scale. Connect your email, define your target audience, and let the AI craft unique messages for each prospect. Get more replies, book more calls, and land more clients — all on autopilot.',
+      price: 147.00,
+      category: 'marketing',
+    },
+  ];
+
+  for (const bot of bots) {
+    await client.query(`
+      INSERT INTO bots (name, description, price, category, creator_id, slug, status)
+      VALUES ($1, $2, $3, $4, $5, $6, 'active')
+      ON CONFLICT (slug) DO UPDATE SET
+        name        = EXCLUDED.name,
+        description = EXCLUDED.description,
+        price       = EXCLUDED.price
+    `, [bot.name, bot.description, bot.price, bot.category, adminId, bot.slug]);
+    console.log('Seeded:', bot.name);
+  }
+
+  console.log('\n✅ Seed complete!');
+  await client.end();
+}
+
+main().catch(err => {
+  console.error('Error:', err.message);
+  process.exit(1);
+});

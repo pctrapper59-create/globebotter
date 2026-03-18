@@ -27,7 +27,11 @@ const findAll = async ({ category, search } = {}) => {
 };
 
 const findById = async (id) => {
-  const result = await pool.query('SELECT * FROM bots WHERE id = $1', [id]);
+  // Support both human-readable slugs and UUIDs
+  const result = await pool.query(
+    `SELECT * FROM bots WHERE slug = $1 OR id::text = $1`,
+    [id]
+  );
   return result.rows[0] || null;
 };
 
