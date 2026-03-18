@@ -10,61 +10,122 @@
    ════════════════════════════════════════════════════════════════════════════ */
 .hero {
   position: relative;
-  min-height: 520px;
+  min-height: 580px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 5rem 1.5rem 4rem;
-  background:
-    linear-gradient(180deg, #050a18 0%, #0a1428 50%, #050a18 100%);
+  padding: 5rem 1.5rem 5rem;
+
+  /* Deep space base */
+  background: #050a18;
 }
 
-/* Ambient glow orbs */
+/* ── Layer 1: star field ───────────────────────────────────────────────────── */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 10%, rgba(255,255,255,0.5)  0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 30%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 8%,  rgba(255,255,255,0.5)  0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 22%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 45%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 60%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 70%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 62% 55%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 78% 65%, rgba(255,255,255,0.28) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Layer 2: neon city skyline at the bottom ─────────────────────────────── */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 55%;
+  background:
+    /* City building silhouettes via repeating gradients */
+    linear-gradient(to top,
+      rgba(0, 180, 255, 0.18) 0%,
+      rgba(0, 100, 200, 0.10) 18%,
+      transparent 50%
+    ),
+    /* Cyan glow along horizon */
+    radial-gradient(ellipse 90% 30% at 50% 100%,
+      rgba(0, 210, 255, 0.22) 0%,
+      rgba(0, 100, 200, 0.10) 40%,
+      transparent 70%
+    ),
+    /* Left teal globe glow */
+    radial-gradient(ellipse 50% 60% at 8% 85%,
+      rgba(0, 220, 180, 0.30) 0%,
+      rgba(0, 150, 200, 0.12) 40%,
+      transparent 70%
+    ),
+    /* Right green chart glow */
+    radial-gradient(ellipse 40% 55% at 92% 80%,
+      rgba(0, 230, 120, 0.22) 0%,
+      rgba(0, 180, 100, 0.08) 45%,
+      transparent 70%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Ambient orbs ─────────────────────────────────────────────────────────── */
 .orbBlue {
   position: absolute;
-  top: -80px; left: -80px;
-  width: 520px; height: 520px;
+  top: -60px; left: -60px;
+  width: 600px; height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(74,158,255,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(74,158,255,0.14) 0%, transparent 65%);
   pointer-events: none;
+  z-index: 0;
 }
 .orbGreen {
   position: absolute;
-  bottom: -100px; right: -80px;
-  width: 480px; height: 480px;
+  bottom: -80px; right: -60px;
+  width: 540px; height: 540px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,200,150,0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0,200,150,0.13) 0%, transparent 65%);
   pointer-events: none;
+  z-index: 0;
 }
 
-/* Subtle grid overlay */
+/* ── Subtle grid overlay ──────────────────────────────────────────────────── */
 .grid {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(74,158,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(rgba(74,158,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,158,255,0.035) 1px, transparent 1px);
+  background-size: 52px 52px;
   pointer-events: none;
+  z-index: 0;
 }
 
-/* Decorative robots */
+/* ── Decorative robots ────────────────────────────────────────────────────── */
 .robotLeft, .robotRight {
   position: absolute;
-  bottom: 10%;
-  font-size: 6rem;
-  opacity: 0.15;
-  filter: blur(1px);
+  bottom: 6%;
+  font-size: 7rem;
+  opacity: 0.22;
   pointer-events: none;
+  z-index: 1;
 }
-.robotLeft  { left: 2%; transform: scaleX(-1); }
-.robotRight { right: 2%; }
+.robotLeft  { left: 1.5%; transform: scaleX(-1); }
+.robotRight { right: 1.5%; }
 
 /* Hero content */
 .heroContent {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-align: center;
   max-width: 760px;
 }
@@ -192,21 +253,82 @@
   font-weight: 700;
 }
 
-.botImageArea {
+/* Product image wrapper — fills a fixed aspect ratio box */
+.botImgWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+}
+
+.botImgFallback {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.03);
+  width: 100%;
+  aspect-ratio: 1 / 1;
   border-radius: 10px;
-  height: 90px;
+  border: 1px solid;
+  background: rgba(255,255,255,0.03);
 }
-.botEmoji { font-size: 3.5rem; opacity: 0.85; }
+
+/* Card body below the image */
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
 
 .featuredTag {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* Feature bullet list */
+.bulletList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.bulletItem {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.bulletCheck {
+  font-size: 0.75rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+/* CTA button inside each card */
+.viewBtn {
+  display: inline-block;
   text-align: center;
-  letter-spacing: 0.03em;
+  border-radius: 7px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  margin-top: 0.25rem;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.featuredCard:hover .viewBtn {
+  opacity: 0.88;
+  transform: translateY(-1px);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
