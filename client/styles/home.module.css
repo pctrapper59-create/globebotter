@@ -6,121 +6,137 @@
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   HERO
+   HERO — high-tech futuristic
    ════════════════════════════════════════════════════════════════════════════ */
+@keyframes scanMove {
+  0%   { top: -4px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+@keyframes robotFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+@keyframes robotFloatMirror {
+  0%, 100% { transform: translateY(0px) scaleX(-1); }
+  50%       { transform: translateY(-14px) scaleX(-1); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.15); }
+}
+@keyframes blink {
+  0%, 90%, 100% { opacity: 1; }
+  95% { opacity: 0.2; }
+}
+
 .hero {
   position: relative;
-  min-height: 580px;
+  min-height: 640px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 5rem 1.5rem 5rem;
-
-  /* Deep space base */
-  background: #050a18;
+  padding: 6rem 1.5rem 5rem;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 120%, rgba(0,180,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 10% 60%,  rgba(0,200,150,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 90% 60%,  rgba(100,60,255,0.07) 0%, transparent 55%),
+    linear-gradient(180deg, #02040e 0%, #050a1a 40%, #080d20 100%);
 }
 
-/* ── Layer 1: star field ───────────────────────────────────────────────────── */
-.hero::before {
-  content: '';
+/* ── Hexagonal grid ───────────────────────────────────────────────────────── */
+.hexGrid {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.55) 0%, transparent 100%),
-    radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.4)  0%, transparent 100%),
-    radial-gradient(1px 1px at 40% 10%, rgba(255,255,255,0.5)  0%, transparent 100%),
-    radial-gradient(1px 1px at 55% 30%, rgba(255,255,255,0.35) 0%, transparent 100%),
-    radial-gradient(1px 1px at 70% 8%,  rgba(255,255,255,0.5)  0%, transparent 100%),
-    radial-gradient(1px 1px at 80% 22%, rgba(255,255,255,0.4)  0%, transparent 100%),
-    radial-gradient(1px 1px at 90% 45%, rgba(255,255,255,0.3)  0%, transparent 100%),
-    radial-gradient(1px 1px at 15% 60%, rgba(255,255,255,0.3)  0%, transparent 100%),
-    radial-gradient(1px 1px at 35% 70%, rgba(255,255,255,0.25) 0%, transparent 100%),
-    radial-gradient(1px 1px at 62% 55%, rgba(255,255,255,0.35) 0%, transparent 100%),
-    radial-gradient(1px 1px at 78% 65%, rgba(255,255,255,0.28) 0%, transparent 100%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 2 L58 18 L58 50 L30 66 L2 50 L2 18 Z' stroke='rgba(0%2C180%2C255%2C0.07)' fill='none' stroke-width='1'/%3E%3Cpath d='M30 70 L58 86 L58 118 L30 134 L2 118 L2 86 Z' stroke='rgba(0%2C180%2C255%2C0.07)' fill='none' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 60px 104px;
   pointer-events: none;
   z-index: 0;
 }
 
-/* ── Layer 2: neon city skyline at the bottom ─────────────────────────────── */
-.hero::after {
-  content: '';
+/* ── Animated scan line ───────────────────────────────────────────────────── */
+.scanLine {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,220,255,0.6) 30%, rgba(0,255,180,0.8) 50%, rgba(0,220,255,0.6) 70%, transparent 100%);
+  box-shadow: 0 0 20px rgba(0,220,255,0.5), 0 0 60px rgba(0,220,255,0.2);
+  animation: scanMove 5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ── Diagonal light beams ─────────────────────────────────────────────────── */
+.beamLeft {
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  width: 50%;
+  height: 140%;
+  background: linear-gradient(115deg, transparent 0%, rgba(0,180,255,0.04) 40%, transparent 60%);
+  transform: rotate(-15deg);
+  pointer-events: none;
+  z-index: 0;
+}
+.beamRight {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 50%;
+  height: 140%;
+  background: linear-gradient(65deg, transparent 0%, rgba(100,60,255,0.05) 40%, transparent 60%);
+  transform: rotate(15deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Central glow behind text ─────────────────────────────────────────────── */
+.glowCenter {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0,180,255,0.10) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Circuit node decorations ─────────────────────────────────────────────── */
+.nodeTopLeft, .nodeTopRight, .nodeBotLeft, .nodeBotRight {
+  position: absolute;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+}
+.nodeTopLeft  { top: 18%; left: 18%;  background: rgba(0,220,255,0.7); box-shadow: 0 0 12px rgba(0,220,255,0.8); animation: pulse 2.4s ease-in-out infinite; }
+.nodeTopRight { top: 22%; right: 18%; background: rgba(0,255,160,0.7); box-shadow: 0 0 12px rgba(0,255,160,0.8); animation: pulse 3.1s ease-in-out infinite; }
+.nodeBotLeft  { bottom: 25%; left: 22%;  background: rgba(120,80,255,0.7); box-shadow: 0 0 12px rgba(120,80,255,0.8); animation: pulse 2.8s ease-in-out infinite; }
+.nodeBotRight { bottom: 28%; right: 22%; background: rgba(0,220,255,0.6); box-shadow: 0 0 12px rgba(0,220,255,0.7); animation: pulse 2.2s ease-in-out infinite; }
+
+/* ── SVG Robots ───────────────────────────────────────────────────────────── */
+.robot {
   position: absolute;
   bottom: 0;
-  left: 0; right: 0;
-  height: 55%;
-  background:
-    /* City building silhouettes via repeating gradients */
-    linear-gradient(to top,
-      rgba(0, 180, 255, 0.18) 0%,
-      rgba(0, 100, 200, 0.10) 18%,
-      transparent 50%
-    ),
-    /* Cyan glow along horizon */
-    radial-gradient(ellipse 90% 30% at 50% 100%,
-      rgba(0, 210, 255, 0.22) 0%,
-      rgba(0, 100, 200, 0.10) 40%,
-      transparent 70%
-    ),
-    /* Left teal globe glow */
-    radial-gradient(ellipse 50% 60% at 8% 85%,
-      rgba(0, 220, 180, 0.30) 0%,
-      rgba(0, 150, 200, 0.12) 40%,
-      transparent 70%
-    ),
-    /* Right green chart glow */
-    radial-gradient(ellipse 40% 55% at 92% 80%,
-      rgba(0, 230, 120, 0.22) 0%,
-      rgba(0, 180, 100, 0.08) 45%,
-      transparent 70%
-    );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── Ambient orbs ─────────────────────────────────────────────────────────── */
-.orbBlue {
-  position: absolute;
-  top: -60px; left: -60px;
-  width: 600px; height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(74,158,255,0.14) 0%, transparent 65%);
-  pointer-events: none;
-  z-index: 0;
-}
-.orbGreen {
-  position: absolute;
-  bottom: -80px; right: -60px;
-  width: 540px; height: 540px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,200,150,0.13) 0%, transparent 65%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── Subtle grid overlay ──────────────────────────────────────────────────── */
-.grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(74,158,255,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,0.035) 1px, transparent 1px);
-  background-size: 52px 52px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── Decorative robots ────────────────────────────────────────────────────── */
-.robotLeft, .robotRight {
-  position: absolute;
-  bottom: 6%;
-  font-size: 7rem;
-  opacity: 0.22;
+  width: clamp(140px, 16vw, 220px);
   pointer-events: none;
   z-index: 1;
 }
-.robotLeft  { left: 1.5%; transform: scaleX(-1); }
-.robotRight { right: 1.5%; }
+.robotLeft {
+  left: 2%;
+  color: rgba(0, 200, 255, 0.45);
+  filter: drop-shadow(0 0 16px rgba(0,200,255,0.5)) drop-shadow(0 0 40px rgba(0,200,255,0.2));
+  animation: robotFloatMirror 4s ease-in-out infinite;
+}
+.robotRight {
+  right: 2%;
+  color: rgba(0, 255, 160, 0.45);
+  filter: drop-shadow(0 0 16px rgba(0,255,160,0.5)) drop-shadow(0 0 40px rgba(0,255,160,0.2));
+  animation: robotFloat 4.5s ease-in-out infinite;
+}
 
 /* Hero content */
 .heroContent {
@@ -129,6 +145,55 @@
   text-align: center;
   max-width: 760px;
 }
+
+/* Badge above title */
+.heroBadge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(0,220,255,0.9);
+  background: rgba(0,180,255,0.08);
+  border: 1px solid rgba(0,180,255,0.25);
+  border-radius: 20px;
+  padding: 0.35rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Stats row */
+.heroStats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+.statNum {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+.statLabel {
+  font-size: 0.7rem;
+  color: rgba(120,160,200,0.8);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.statDivider {
+  width: 1px;
+  height: 30px;
+  background: rgba(74,158,255,0.25);
+}
+
+.heroCyan { color: #00d4ff; }
 
 .heroTitle {
   font-size: clamp(2rem, 6vw, 3.5rem);
