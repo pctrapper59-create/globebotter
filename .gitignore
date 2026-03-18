@@ -2,6 +2,10 @@
 node_modules/
 **/node_modules/
 
+# Lock files (platform-specific native binaries cause cross-OS build failures)
+package-lock.json
+**/package-lock.json
+
 # Build output
 client/.next/
 client/out/
