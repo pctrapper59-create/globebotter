@@ -387,6 +387,13 @@
   flex-shrink: 0;
 }
 
+/* Price display inside each card */
+.botPrice {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 0.4rem 0 0.1rem;
+}
+
 /* CTA button inside each card */
 .viewBtn {
   display: inline-block;
