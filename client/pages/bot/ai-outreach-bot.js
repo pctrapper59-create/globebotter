@@ -206,6 +206,18 @@ function OutreachBotContent() {
           </>
         )}
 
+        {/* Download Python package */}
+        <div className={styles.downloadBar}>
+          <span className={styles.downloadLabel}>🐍 Also included: Python / Streamlit desktop app</span>
+          <a
+            href="/downloads/ai-outreach-bot.zip"
+            download="ai-outreach-bot.zip"
+            className={styles.downloadBtn}
+          >
+            ⬇ Download Python Package
+          </a>
+        </div>
+
         {/* How it works — shown before first generation */}
         {!messages && !loading && (
           <div className={styles.howItWorks}>
