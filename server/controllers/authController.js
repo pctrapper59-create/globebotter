@@ -8,8 +8,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const emailService = require('../services/emailService');
 
-const signToken = (userId) =>
-  jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '7d' });
+const signToken = (user) =>
+  jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
 const register = async (req, res) => {
   try {
@@ -29,7 +29,7 @@ const register = async (req, res) => {
 
     emailService.sendWelcomeEmail({ name, email }).catch(() => {}); // non-blocking, never fail register
 
-    const token = signToken(user.id);
+    const token = signToken(user);
     res.status(201).json({ token, user });
   } catch (err) {
     console.error('register error:', err);
@@ -55,7 +55,7 @@ const login = async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const token = signToken(user.id);
+    const token = signToken(user);
     const { password: _pw, ...safeUser } = user; // strip hash from response
     res.json({ token, user: safeUser });
   } catch (err) {

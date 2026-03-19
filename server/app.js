@@ -19,8 +19,12 @@ const leadsRoutes      = require('./routes/leads');
 const outreachRoutes   = require('./routes/outreach');
 
 const allowedOrigins = require('./config/allowedOrigins');
+const { authLimiter, aiLimiter, generalLimiter } = require('./middleware/rateLimiter');
 
 const app = express();
+
+// Trust proxy for rate limiting behind Netlify Functions
+app.set('trust proxy', 1);
 
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
@@ -45,6 +49,13 @@ app.use(
 );
 
 app.use(express.json());
+
+// Apply rate limiters BEFORE route mounts
+app.use('/api/auth', authLimiter);
+app.use('/api/leads', aiLimiter);
+app.use('/api/outreach', aiLimiter);
+app.use('/api/automation', aiLimiter);
+app.use('/api', generalLimiter);
 
 // Routes
 app.use('/api/auth',     authRoutes);
