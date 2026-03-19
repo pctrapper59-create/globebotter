@@ -5,6 +5,14 @@
 const path = require('path');
 const fs   = require('fs');
 
+// ── Canonical Stripe Price IDs ──────────────────────────────────────────
+// These must match the live Stripe Dashboard. Last verified: 2026-03-19
+// Source of truth: server/scripts/updateBotPrices.js (ran against prod DB)
+//   AI Lead Generator  one-time:  price_1TCNf8RMcin8b0U1Z2bUcm2k
+//   AI Outreach Bot    one-time:  price_1TCNf8RMcin8b0U1BJyDqAOI
+//   AI Auto Suite      monthly:   price_1TCNf8RMcin8b0U1APpuj8kC
+// ────────────────────────────────────────────────────────────────────────
+
 // Load .env manually
 const envPath = path.join(__dirname, '../.env');
 fs.readFileSync(envPath, 'utf8').split('\n').forEach(line => {
@@ -46,7 +54,7 @@ async function main() {
       description: 'The ultimate all-in-one automation suite. Automate your entire workflow, save hours of work daily, and grow your business with AI-powered tools that work 24/7. Includes lead gen, outreach, social media scheduling, and analytics in one powerful package.',
       price: 29.00,
       category: 'custom',
-      stripe_price_id_monthly: 'price_1TCMgvEjDlkmOvOijQz2rvUZ',
+      stripe_price_id_monthly: 'price_1TCNf8RMcin8b0U1APpuj8kC',
       stripe_price_id_once: null,
     },
     {
@@ -55,7 +63,7 @@ async function main() {
       description: 'Find and extract local business leads on autopilot. Search any city and niche, extract contact details including emails and phone numbers, and export to CSV instantly. Perfect for agencies, freelancers, and sales teams looking to fill their pipeline fast.',
       price: 79.00,
       category: 'marketing',
-      stripe_price_id_once: 'price_1TCMX6EjDlkmOvOiZq8zxggV',
+      stripe_price_id_once: 'price_1TCNf8RMcin8b0U1Z2bUcm2k',
       stripe_price_id_monthly: null,
     },
     {
@@ -64,7 +72,7 @@ async function main() {
       description: 'Send personalized AI-written cold outreach emails at scale. Connect your email, define your target audience, and let the AI craft unique messages for each prospect. Get more replies, book more calls, and land more clients — all on autopilot.',
       price: 99.00,
       category: 'marketing',
-      stripe_price_id_once: 'price_1TCMdaEjDlkmOvOiCaRuiBl6',
+      stripe_price_id_once: 'price_1TCNf8RMcin8b0U1BJyDqAOI',
       stripe_price_id_monthly: null,
     },
   ];
