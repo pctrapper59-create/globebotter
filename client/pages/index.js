@@ -157,12 +157,22 @@ function Hero() {
           <Link href="/marketplace" className={styles.btnBlue}>Explore Bots</Link>
           <Link href="/register"    className={styles.btnGreen}>Start Selling</Link>
         </div>
-        <div className={styles.heroStats}>
-          <div className={styles.stat}><span className={styles.statNum}>500+</span><span className={styles.statLabel}>Bots</span></div>
-          <div className={styles.statDivider} />
-          <div className={styles.stat}><span className={styles.statNum}>10K+</span><span className={styles.statLabel}>Users</span></div>
-          <div className={styles.statDivider} />
-          <div className={styles.stat}><span className={styles.statNum}>99.9%</span><span className={styles.statLabel}>Uptime</span></div>
+        <div className={styles.featureHighlights}>
+          <div className={styles.featureItem}>
+            <span className={styles.featureIcon}>⚡</span>
+            <span className={styles.featureTitle}>Instant Results</span>
+            <span className={styles.featureDesc}>AI-generated in seconds, ready to copy &amp; send</span>
+          </div>
+          <div className={styles.featureItem}>
+            <span className={styles.featureIcon}>💰</span>
+            <span className={styles.featureTitle}>Lifetime Pricing</span>
+            <span className={styles.featureDesc}>Pay once, use forever. No hidden subscriptions.</span>
+          </div>
+          <div className={styles.featureItem}>
+            <span className={styles.featureIcon}>🎯</span>
+            <span className={styles.featureTitle}>Built for Outreach</span>
+            <span className={styles.featureDesc}>Cold email, DM, lead gen — everything you need to grow</span>
+          </div>
         </div>
       </div>
     </section>
