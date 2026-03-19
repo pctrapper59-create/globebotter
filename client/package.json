@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@netlify/plugin-nextjs": "^5.15.9",
+    "@tailwindcss/postcss": "^4.2.2",
     "autoprefixer": "^10.4.18",
     "next": "^14.2.35",
     "postcss": "^8.4.38",
