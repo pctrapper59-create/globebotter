@@ -27,13 +27,7 @@ async function main() {
   await client.connect();
   console.log('Connected!');
 
-  // ── 1. Add slug column if missing ────────────────────────────────────────
-  await client.query(`
-    ALTER TABLE bots ADD COLUMN IF NOT EXISTS slug VARCHAR(100) UNIQUE;
-  `);
-  console.log('slug column ready');
-
-  // ── 2. Create admin/seller user ───────────────────────────────────────────
+  // ── 1. Create admin/seller user ───────────────────────────────────────────
   const hash = await bcrypt.hash('Admin1234!', 10);
   const userRes = await client.query(`
     INSERT INTO users (name, email, password, role)
