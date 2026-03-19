@@ -14,6 +14,8 @@ const API = process.env.NEXT_PUBLIC_API_URL;
 const PROVIDER_LABELS = { openai: 'OpenAI', anthropic: 'Anthropic', template: 'Template' };
 
 const TOOLS = [
+  { id: 'leads',    label: '🎯 Lead Finder',          endpoint: '/api/leads/search' },
+  { id: 'outreach', label: '✉️ Outreach Messages',     endpoint: '/api/outreach/generate' },
   { id: 'followup',  label: '🔄 Follow-Up Sequence',   endpoint: '/api/automation/followup-sequence' },
   { id: 'email',     label: '📧 Email Drip Sequence',   endpoint: '/api/automation/email-sequence' },
   { id: 'social',    label: '📱 Social Media Pack',     endpoint: '/api/automation/social-posts' },
@@ -61,6 +63,12 @@ function AutomationSuiteContent() {
   const [location,         setLocation]         = useState('');
   const [platforms,        setPlatforms]        = useState('');
 
+  // Lead Finder inputs
+  const [leadBusinessType, setLeadBusinessType] = useState('');
+  const [leadLocation,     setLeadLocation]     = useState('');
+  const [leadOffer,        setLeadOffer]         = useState('');
+  const [leadLimit,        setLeadLimit]         = useState(10);
+
   const switchTool = (tool) => {
     setActiveTool(tool);
     setResult(null);
@@ -68,29 +76,31 @@ function AutomationSuiteContent() {
   };
 
   const generate = async () => {
-    if (!businessName.trim() || !businessType.trim()) {
-      setError('Business name and type are required.');
-      return;
+    // Different validation per tool
+    if (activeTool.id === 'leads') {
+      if (!leadBusinessType.trim() || !leadLocation.trim()) {
+        setError('Business type and location are required.'); return;
+      }
+    } else {
+      if (!businessName.trim() || !businessType.trim()) {
+        setError('Business name and type are required.');
+        return;
+      }
+      if (activeTool.id === 'proposal' && !offer.trim()) {
+        setError('Please describe what you\'re offering.');
+        return;
+      }
     }
-    if (activeTool.id === 'proposal' && !offer.trim()) {
-      setError('Please describe what you\'re offering');
-      return;
-    }
-    setLoading(true);
-    setError('');
-    setResult(null);
+    setLoading(true); setError(''); setResult(null);
     try {
-      const body = {
-        businessName,
-        businessType,
-        offer,
-        senderName,
-        previousMessage,
-        tone,
-        price,
-        location,
-        platforms,
-      };
+      let body;
+      if (activeTool.id === 'leads') {
+        body = { businessType: leadBusinessType, location: leadLocation, offer: leadOffer, limit: leadLimit };
+      } else if (activeTool.id === 'outreach') {
+        body = { businessName, businessType, offer, senderName };
+      } else {
+        body = { businessName, businessType, offer, senderName, previousMessage, tone, price, location, platforms };
+      }
       const res = await fetch(`${API}${activeTool.endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...authHeaders() },
@@ -100,11 +110,8 @@ function AutomationSuiteContent() {
       if (!res.ok) { setError(data.error || 'Generation failed'); return; }
       setResult(data);
       setProvider(data.provider || '');
-    } catch {
-      setError('Network error. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    } catch { setError('Network error. Please try again.'); }
+    finally { setLoading(false); }
   };
 
   const toolId = activeTool.id;
@@ -119,7 +126,7 @@ function AutomationSuiteContent() {
         <div className={styles.header}>
           <h1 className={styles.title}>🤖 AI Automation Suite</h1>
           <p className={styles.subtitle}>
-            7 AI tools to automate your business growth
+            9 AI tools to automate your business growth
           </p>
         </div>
 
@@ -139,6 +146,31 @@ function AutomationSuiteContent() {
         {/* Input form */}
         <div className={styles.card}>
 
+          {activeTool.id === 'leads' ? (
+            <>
+              <div className={styles.formGrid}>
+                <div>
+                  <label className={styles.label}>Business Type *</label>
+                  <input className={styles.input} placeholder="e.g. plumbing company" value={leadBusinessType} onChange={e => setLeadBusinessType(e.target.value)} />
+                </div>
+                <div>
+                  <label className={styles.label}>Location *</label>
+                  <input className={styles.input} placeholder="e.g. Austin, TX" value={leadLocation} onChange={e => setLeadLocation(e.target.value)} />
+                </div>
+              </div>
+              <div className={styles.formGrid}>
+                <div>
+                  <label className={styles.label}>What you&rsquo;re offering</label>
+                  <input className={styles.input} placeholder="e.g. AI marketing tools" value={leadOffer} onChange={e => setLeadOffer(e.target.value)} />
+                </div>
+                <div>
+                  <label className={styles.label}>Number of leads (max 20)</label>
+                  <input className={styles.input} type="number" min="1" max="20" value={leadLimit} onChange={e => setLeadLimit(Number(e.target.value))} />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
           {/* Always required: Business Name + Business Type */}
           <div className={styles.formGrid}>
             <div>
@@ -262,6 +294,8 @@ function AutomationSuiteContent() {
               />
             </div>
           )}
+            </>
+          )}
 
           <button
             className={styles.generateBtn}
@@ -283,8 +317,72 @@ function AutomationSuiteContent() {
           {error && <p className={styles.error}>{error}</p>}
         </div>
 
-        {/* Results */}
-        {result && (
+        {/* Results — leads */}
+        {activeTool.id === 'leads' && result?.leads && (
+          <>
+            <div className={styles.results}>
+              {result.leads.map((lead, i) => (
+                <div key={i} className={styles.resultCard}>
+                  <div className={styles.resultHeader}>
+                    <span className={styles.resultLabel} style={{color:'#38bdf8'}}>🏢 {lead.name}</span>
+                    <CopyButton text={lead.message || ''} />
+                  </div>
+                  <div className={styles.resultBody}>
+                    {lead.address && <div style={{color:'#64748b',fontSize:'0.8rem',marginBottom:'0.35rem'}}>📍 {lead.address}</div>}
+                    {lead.phone && <div style={{color:'#64748b',fontSize:'0.8rem',marginBottom:'0.35rem'}}>📞 {lead.phone}</div>}
+                    {lead.website && <div style={{color:'#64748b',fontSize:'0.8rem',marginBottom:'0.75rem'}}>🌐 {lead.website}</div>}
+                    {lead.message && <div style={{whiteSpace:'pre-wrap'}}>{lead.message}</div>}
+                  </div>
+                </div>
+              ))}
+              {result.total && <p style={{color:'#64748b',fontSize:'0.85rem',textAlign:'center'}}>Showing {result.leads.length} of {result.total} results</p>}
+            </div>
+            <div className={styles.regenRow}>
+              {provider && (
+                <span className={styles.providerBadge}>
+                  Powered by {PROVIDER_LABELS[provider] || provider}
+                </span>
+              )}
+              <button className={styles.regenBtn} onClick={generate} disabled={loading}>
+                ↻ Regenerate
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* Results — outreach */}
+        {activeTool.id === 'outreach' && result?.messages && (
+          <>
+            <div className={styles.results}>
+              {[
+                { key: 'coldEmail', label: '📧 Cold Email', color: '#a78bfa' },
+                { key: 'dm',        label: '💬 Instagram / DM', color: '#38bdf8' },
+                { key: 'followUp',  label: '🔄 Follow-Up', color: '#34d399' },
+              ].map(({ key, label, color }) => (
+                <div key={key} className={styles.resultCard}>
+                  <div className={styles.resultHeader}>
+                    <span className={styles.resultLabel} style={{color}}>{label}</span>
+                    <CopyButton text={result.messages[key] || ''} />
+                  </div>
+                  <div className={styles.resultBody}>{result.messages[key]}</div>
+                </div>
+              ))}
+            </div>
+            <div className={styles.regenRow}>
+              {provider && (
+                <span className={styles.providerBadge}>
+                  Powered by {PROVIDER_LABELS[provider] || provider}
+                </span>
+              )}
+              <button className={styles.regenBtn} onClick={generate} disabled={loading}>
+                ↻ Regenerate
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* Results — existing 7 tools */}
+        {result && activeTool.id !== 'leads' && activeTool.id !== 'outreach' && (
           <>
             <div className={styles.resultCard}>
               <div className={styles.resultHeader}>
@@ -460,7 +558,7 @@ function AutomationSuiteContent() {
               <div className={styles.howStep}>
                 <span className={styles.howIcon}>🎯</span>
                 <p className={styles.howStepTitle}>Pick a tool</p>
-                <p className={styles.howStepDesc}>Choose from 7 automation tools above</p>
+                <p className={styles.howStepDesc}>Choose from 9 automation tools above</p>
               </div>
               <div className={styles.howStep}>
                 <span className={styles.howIcon}>🤖</span>
