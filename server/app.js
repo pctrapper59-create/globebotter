@@ -38,6 +38,7 @@ app.use('/api/deployments', deploymentRoutes);
 app.use('/api/run',         botRunRoutes);
 app.use('/api/leads',       leadsRoutes);
 app.use('/api/outreach',    outreachRoutes);
+app.use('/api/automation', require('./routes/automation'));
 
 // Health check
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));

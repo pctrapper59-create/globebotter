@@ -15,16 +15,16 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# ── Route all /api/* calls to the Express serverless function ────────────────
-[[redirects]]
-  from   = "/api/*"
-  to     = "/.netlify/functions/api/:splat"
-  status = 200
-  force  = true
-
 # ── Stripe webhook (raw body required — same function, special header) ────────
 [[redirects]]
   from   = "/api/payments/webhook"
   to     = "/.netlify/functions/api/payments/webhook"
+  status = 200
+  force  = true
+
+# ── Route all /api/* calls to the Express serverless function ────────────────
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/api/:splat"
   status = 200
   force  = true

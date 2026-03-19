@@ -38,6 +38,12 @@ CREATE TABLE IF NOT EXISTS bots (
   status       VARCHAR(20)   NOT NULL DEFAULT 'active'
                  CHECK (status IN ('active', 'inactive', 'draft')),
 
+  -- URL-friendly identifier
+  slug         VARCHAR(255) UNIQUE,
+
+  -- pricing model: 'once' | 'subscription' | 'both'
+  pricing_model VARCHAR(20) NOT NULL DEFAULT 'once',
+
   -- Stripe product + price IDs (set when seller lists the bot)
   stripe_product_id       VARCHAR(255),
   stripe_price_id_once    VARCHAR(255),  -- one-time purchase

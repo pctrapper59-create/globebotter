@@ -32,15 +32,6 @@ const BOTS = [
 ];
 
 async function run() {
-  // Add pricing_model column if it doesn't exist
-  await pool.query(`
-    ALTER TABLE bots
-    ADD COLUMN IF NOT EXISTS pricing_model VARCHAR(20) DEFAULT 'both',
-    ADD COLUMN IF NOT EXISTS stripe_price_id_once    VARCHAR(255),
-    ADD COLUMN IF NOT EXISTS stripe_price_id_monthly VARCHAR(255)
-  `);
-  console.log('✅ Columns ensured');
-
   for (const bot of BOTS) {
     const result = await pool.query(
       `UPDATE bots
