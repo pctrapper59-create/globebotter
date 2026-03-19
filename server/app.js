@@ -7,6 +7,7 @@
  */
 const express = require('express');
 const cors    = require('cors');
+const helmet  = require('helmet');
 
 const authRoutes    = require('./routes/auth');
 const botRoutes     = require('./routes/bots');
@@ -18,6 +19,10 @@ const leadsRoutes      = require('./routes/leads');
 const outreachRoutes   = require('./routes/outreach');
 
 const app = express();
+
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
 
 app.use(cors());
 
