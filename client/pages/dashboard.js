@@ -15,14 +15,20 @@ function DashboardContent() {
   const [purchases,      setPurchases]      = useState([]);
   const [subscriptions,  setSubscriptions]  = useState([]);
   const [tab,            setTab]            = useState('bots');
+  const [error,          setError]          = useState('');
 
   const justBought = router.query.success === '1';
 
   const fetchAll = useCallback(async () => {
-    const paymentsRes = await fetch(`${API}/api/payments/my`, { headers: authHeaders() });
-    const pd = await paymentsRes.json();
-    setPurchases(pd.purchases ?? []);
-    setSubscriptions(pd.subscriptions ?? []);
+    try {
+      const paymentsRes = await fetch(`${API}/api/payments/my`, { headers: authHeaders() });
+      const pd = await paymentsRes.json();
+      setPurchases(pd.purchases ?? []);
+      setSubscriptions(pd.subscriptions ?? []);
+    } catch (err) {
+      console.error('Dashboard fetch error:', err);
+      setError('Could not load your data. Please refresh the page.');
+    }
   }, []);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
@@ -38,6 +44,8 @@ function DashboardContent() {
             🎉 Purchase successful! Your bot is ready to use.
           </div>
         )}
+
+        {error && <div className={styles.error}>{error}</div>}
 
         {/* Tabs */}
         <div className={styles.tabs}>

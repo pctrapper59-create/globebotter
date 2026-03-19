@@ -98,19 +98,25 @@ function SellerContent() {
   const [sales, setSales] = useState({ purchases: [], subscriptions: [] });
   const [stats, setStats] = useState(null);
   const [tab,   setTab]   = useState('bots'); // 'bots' | 'sales'
+  const [error, setError] = useState('');
 
   const fetchAll = async () => {
-    const [botsRes, salesRes, statsRes] = await Promise.all([
-      fetch(`${API}/api/seller/bots`,  { headers: authHeaders() }),
-      fetch(`${API}/api/seller/sales`, { headers: authHeaders() }),
-      fetch(`${API}/api/seller/stats`, { headers: authHeaders() }),
-    ]);
-    const [botsData, salesData, statsData] = await Promise.all([
-      botsRes.json(), salesRes.json(), statsRes.json(),
-    ]);
-    setBots(botsData.bots ?? []);
-    setSales(salesData);
-    setStats(statsData.stats);
+    try {
+      const [botsRes, salesRes, statsRes] = await Promise.all([
+        fetch(`${API}/api/seller/bots`,  { headers: authHeaders() }),
+        fetch(`${API}/api/seller/sales`, { headers: authHeaders() }),
+        fetch(`${API}/api/seller/stats`, { headers: authHeaders() }),
+      ]);
+      const [botsData, salesData, statsData] = await Promise.all([
+        botsRes.json(), salesRes.json(), statsRes.json(),
+      ]);
+      setBots(botsData.bots ?? []);
+      setSales(salesData);
+      setStats(statsData.stats);
+    } catch (err) {
+      console.error('Dashboard fetch error:', err);
+      setError('Could not load your data. Please refresh the page.');
+    }
   };
 
   useEffect(() => { fetchAll(); }, []);
@@ -120,6 +126,8 @@ function SellerContent() {
       <Navbar />
       <main className={styles.main}>
         <h1 className={styles.pageTitle}>Seller Dashboard</h1>
+
+        {error && <div className={styles.error}>{error}</div>}
 
         {/* Stats row */}
         {stats && (
