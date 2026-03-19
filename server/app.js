@@ -14,6 +14,7 @@ const paymentRoutes = require('./routes/payments');
 const sellerRoutes     = require('./routes/seller');
 const deploymentRoutes = require('./routes/deployments');
 const botRunRoutes     = require('./routes/botRun');
+const leadsRoutes      = require('./routes/leads');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/seller',      sellerRoutes);
 app.use('/api/deployments', deploymentRoutes);
 app.use('/api/run',         botRunRoutes);
+app.use('/api/leads',       leadsRoutes);
 
 // Health check
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
