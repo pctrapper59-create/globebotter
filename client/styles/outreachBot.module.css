@@ -1,0 +1,304 @@
+/* ── AI Outreach Bot — dark SaaS theme ── */
+.page {
+  min-height: 100vh;
+  background: #080c18;
+  color: #e8eaf0;
+  font-family: 'Inter', sans-serif;
+}
+
+.main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #a78bfa, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  color: #94a3b8;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* ── Form ── */
+.card {
+  background: #0f1629;
+  border: 1px solid #1e2a45;
+  border-radius: 12px;
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.formFull {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  background: #0a0f1e;
+  border: 1px solid #1e2a45;
+  border-radius: 8px;
+  color: #e8eaf0;
+  font-size: 0.95rem;
+  padding: 0.65rem 0.9rem;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #a78bfa;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.generateBtn {
+  width: 100%;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #a78bfa, #38bdf8);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+
+.generateBtn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.generateBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Loading ── */
+.loadingBar {
+  height: 3px;
+  background: #1e2a45;
+  border-radius: 99px;
+  overflow: hidden;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.loadingFill {
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #a78bfa, #38bdf8);
+  border-radius: 99px;
+  animation: slide 1.4s ease-in-out infinite;
+}
+
+@keyframes slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+.loadingText {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Error ── */
+.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #fca5a5;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+/* ── Results ── */
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.resultCard {
+  background: #0f1629;
+  border: 1px solid #1e2a45;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.resultHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #1e2a45;
+}
+
+.resultLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.labelEmail { color: #a78bfa; }
+.labelDm    { color: #38bdf8; }
+.labelFollowup { color: #34d399; }
+
+.resultBody {
+  padding: 1.25rem;
+  white-space: pre-wrap;
+  font-size: 0.93rem;
+  line-height: 1.7;
+  color: #cbd5e1;
+}
+
+/* ── Copy button ── */
+.copyBtn {
+  background: transparent;
+  border: 1px solid #1e2a45;
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.copyBtn:hover { border-color: #a78bfa; color: #a78bfa; }
+.copyBtnDone   { border-color: #34d399 !important; color: #34d399 !important; }
+
+/* ── Provider badge ── */
+.providerBadge {
+  display: inline-block;
+  background: rgba(167, 139, 250, 0.1);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 99px;
+  color: #a78bfa;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 1rem;
+}
+
+/* ── Regenerate ── */
+.regenRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.regenBtn {
+  background: transparent;
+  border: 1px solid #1e2a45;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.regenBtn:hover { border-color: #a78bfa; color: #a78bfa; }
+
+/* ── How it works ── */
+.howItWorks {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background: #0f1629;
+  border: 1px solid #1e2a45;
+  border-radius: 12px;
+}
+
+.howTitle {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0 0 1rem;
+}
+
+.howSteps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.howStep {
+  text-align: center;
+  padding: 1rem;
+}
+
+.howIcon {
+  font-size: 1.75rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.howStepTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0 0 0.25rem;
+}
+
+.howStepDesc {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .formGrid { grid-template-columns: 1fr; }
+  .howSteps { grid-template-columns: 1fr; }
+  .title    { font-size: 1.5rem; }
+}
