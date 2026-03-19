@@ -50,34 +50,44 @@ async function main() {
       slug: 'ai-automation-suite',
       name: 'AI Automation Suite',
       description: 'The ultimate all-in-one automation suite. Automate your entire workflow, save hours of work daily, and grow your business with AI-powered tools that work 24/7. Includes lead gen, outreach, social media scheduling, and analytics in one powerful package.',
-      price: 297.00,
+      price: 29.00,
       category: 'custom',
+      stripe_price_id_monthly: 'price_1TCMgvEjDlkmOvOijQz2rvUZ',
+      stripe_price_id_once: null,
     },
     {
       slug: 'ai-lead-generator',
       name: 'AI Lead Generator Bot',
       description: 'Find and extract local business leads on autopilot. Search any city and niche, extract contact details including emails and phone numbers, and export to CSV instantly. Perfect for agencies, freelancers, and sales teams looking to fill their pipeline fast.',
-      price: 97.00,
+      price: 79.00,
       category: 'marketing',
+      stripe_price_id_once: 'price_1TCMX6EjDlkmOvOiZq8zxggV',
+      stripe_price_id_monthly: null,
     },
     {
       slug: 'ai-outreach-bot',
       name: 'AI Outreach Message Bot',
       description: 'Send personalized AI-written cold outreach emails at scale. Connect your email, define your target audience, and let the AI craft unique messages for each prospect. Get more replies, book more calls, and land more clients — all on autopilot.',
-      price: 147.00,
+      price: 99.00,
       category: 'marketing',
+      stripe_price_id_once: 'price_1TCMdaEjDlkmOvOiCaRuiBl6',
+      stripe_price_id_monthly: null,
     },
   ];
 
   for (const bot of bots) {
     await client.query(`
-      INSERT INTO bots (name, description, price, category, creator_id, slug, status)
-      VALUES ($1, $2, $3, $4, $5, $6, 'active')
+      INSERT INTO bots (name, description, price, category, creator_id, slug, status,
+                        stripe_price_id_once, stripe_price_id_monthly)
+      VALUES ($1, $2, $3, $4, $5, $6, 'active', $7, $8)
       ON CONFLICT (slug) DO UPDATE SET
-        name        = EXCLUDED.name,
-        description = EXCLUDED.description,
-        price       = EXCLUDED.price
-    `, [bot.name, bot.description, bot.price, bot.category, adminId, bot.slug]);
+        name                    = EXCLUDED.name,
+        description             = EXCLUDED.description,
+        price                   = EXCLUDED.price,
+        stripe_price_id_once    = EXCLUDED.stripe_price_id_once,
+        stripe_price_id_monthly = EXCLUDED.stripe_price_id_monthly
+    `, [bot.name, bot.description, bot.price, bot.category, adminId, bot.slug,
+        bot.stripe_price_id_once, bot.stripe_price_id_monthly]);
     console.log('Seeded:', bot.name);
   }
 
