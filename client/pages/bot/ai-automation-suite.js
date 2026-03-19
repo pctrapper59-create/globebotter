@@ -72,6 +72,10 @@ function AutomationSuiteContent() {
       setError('Business name and type are required.');
       return;
     }
+    if (activeTool.id === 'proposal' && !offer.trim()) {
+      setError('Please describe what you\'re offering');
+      return;
+    }
     setLoading(true);
     setError('');
     setResult(null);
@@ -173,7 +177,7 @@ function AutomationSuiteContent() {
           {/* email, proposal, faq: offer */}
           {['email', 'proposal', 'faq'].includes(toolId) && (
             <div className={styles.formFull}>
-              <label className={styles.label}>What you&rsquo;re offering</label>
+              <label className={styles.label}>What you&rsquo;re offering {toolId === 'proposal' ? '*' : ''}</label>
               <input
                 className={styles.input}
                 placeholder="e.g. AI marketing automation"
@@ -289,45 +293,51 @@ function AutomationSuiteContent() {
               <div className={styles.resultBody}>
 
                 {/* followup: 3 messages */}
-                {toolId === 'followup' && (
+                {toolId === 'followup' && result.sequence && (
                   <>
-                    {result.msg1 && (
+                    {result.sequence.msg1 && (
                       <div className={styles.outputSection}>
                         <div className={styles.outputLabel}>Follow-Up #1</div>
-                        <div className={styles.outputText}>{result.msg1}</div>
+                        <div className={styles.outputText}>{result.sequence.msg1}</div>
                       </div>
                     )}
-                    {result.msg2 && (
+                    {result.sequence.msg2 && (
                       <div className={styles.outputSection}>
                         <div className={styles.outputLabel}>Follow-Up #2</div>
-                        <div className={styles.outputText}>{result.msg2}</div>
+                        <div className={styles.outputText}>{result.sequence.msg2}</div>
                       </div>
                     )}
-                    {result.msg3 && (
+                    {result.sequence.msg3 && (
                       <div className={styles.outputSection}>
                         <div className={styles.outputLabel}>Follow-Up #3</div>
-                        <div className={styles.outputText}>{result.msg3}</div>
+                        <div className={styles.outputText}>{result.sequence.msg3}</div>
                       </div>
                     )}
                   </>
                 )}
 
                 {/* email: 5 email items */}
-                {toolId === 'email' && Array.isArray(result.emails) && result.emails.map((email, i) => (
-                  <div key={i} className={styles.emailItem}>
-                    <div className={styles.emailSubject}>Email {i + 1}: {email.subject}</div>
-                    <div className={styles.emailBody}>{email.body}</div>
-                  </div>
-                ))}
+                {toolId === 'email' && result.sequence && (
+                  [1, 2, 3, 4, 5].map((n) => {
+                    const email = result.sequence[`email${n}`];
+                    if (!email) return null;
+                    return (
+                      <div key={n} className={styles.emailItem}>
+                        <div className={styles.emailSubject}>Email {n}: {email.subject}</div>
+                        <div className={styles.emailBody}>{email.body}</div>
+                      </div>
+                    );
+                  })
+                )}
 
                 {/* social: 3 platform sections */}
-                {toolId === 'social' && result.platforms && (
+                {toolId === 'social' && result.posts && (
                   <>
-                    {result.platforms.instagram && (
+                    {result.posts.instagram && (
                       <div className={styles.socialSection}>
                         <div className={styles.socialPlatformLabel}>Instagram</div>
                         <div className={styles.socialPosts}>
-                          {result.platforms.instagram.map((post, i) => (
+                          {result.posts.instagram.map((post, i) => (
                             <div key={i} className={styles.socialPost}>
                               <span>{post}</span>
                               <CopyButton text={post} />
@@ -336,11 +346,11 @@ function AutomationSuiteContent() {
                         </div>
                       </div>
                     )}
-                    {result.platforms.linkedin && (
+                    {result.posts.linkedin && (
                       <div className={styles.socialSection}>
                         <div className={styles.socialPlatformLabel}>LinkedIn</div>
                         <div className={styles.socialPosts}>
-                          {result.platforms.linkedin.map((post, i) => (
+                          {result.posts.linkedin.map((post, i) => (
                             <div key={i} className={styles.socialPost}>
                               <span>{post}</span>
                               <CopyButton text={post} />
@@ -349,11 +359,11 @@ function AutomationSuiteContent() {
                         </div>
                       </div>
                     )}
-                    {result.platforms.twitter && (
+                    {result.posts.twitter && (
                       <div className={styles.socialSection}>
                         <div className={styles.socialPlatformLabel}>Twitter / X</div>
                         <div className={styles.socialPosts}>
-                          {result.platforms.twitter.map((post, i) => (
+                          {result.posts.twitter.map((post, i) => (
                             <div key={i} className={styles.socialPost}>
                               <span>{post}</span>
                               <CopyButton text={post} />
@@ -390,33 +400,33 @@ function AutomationSuiteContent() {
                 )}
 
                 {/* bio: short, medium, long */}
-                {toolId === 'bio' && (
+                {toolId === 'bio' && result.bios && (
                   <>
-                    {result.short && (
+                    {result.bios.short && (
                       <div className={styles.outputSection}>
                         <div className={styles.outputLabel}>Short Bio</div>
-                        <div className={styles.outputText}>{result.short}</div>
+                        <div className={styles.outputText}>{result.bios.short}</div>
                       </div>
                     )}
-                    {result.medium && (
+                    {result.bios.medium && (
                       <div className={styles.outputSection}>
                         <div className={styles.outputLabel}>Medium Bio</div>
-                        <div className={styles.outputText}>{result.medium}</div>
+                        <div className={styles.outputText}>{result.bios.medium}</div>
                       </div>
                     )}
-                    {result.long && (
+                    {result.bios.long && (
                       <div className={styles.outputSection}>
                         <div className={styles.outputLabel}>Long Bio</div>
-                        <div className={styles.outputText}>{result.long}</div>
+                        <div className={styles.outputText}>{result.bios.long}</div>
                       </div>
                     )}
                   </>
                 )}
 
                 {/* faq: 10 Q&A items */}
-                {toolId === 'faq' && Array.isArray(result.faqs) && (
+                {toolId === 'faq' && Array.isArray(result.faq) && (
                   <div className={styles.faqList}>
-                    {result.faqs.map((item, i) => (
+                    {result.faq.map((item, i) => (
                       <div key={i} className={styles.faqItem}>
                         <div className={styles.faqQ}>{item.q}</div>
                         <div className={styles.faqA}>{item.a}</div>
