@@ -18,13 +18,25 @@ const botRunRoutes     = require('./routes/botRun');
 const leadsRoutes      = require('./routes/leads');
 const outreachRoutes   = require('./routes/outreach');
 
+const allowedOrigins = require('./config/allowedOrigins');
+
 const app = express();
 
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 
-app.use(cors());
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (curl, Postman, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
+  credentials: false,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  maxAge: 86400,
+}));
 
 // Stripe webhook needs the raw body — mount BEFORE express.json()
 app.use(
