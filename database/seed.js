@@ -51,7 +51,7 @@ async function main() {
     {
       slug: 'ai-automation-suite',
       name: 'AI Automation Suite',
-      description: 'The ultimate all-in-one automation suite. Automate your entire workflow, save hours of work daily, and grow your business with AI-powered tools that work 24/7. Includes lead gen, outreach, social media scheduling, and analytics in one powerful package.',
+      description: 'The complete AI business toolkit. Includes Lead Finder, Outreach Messages, Follow-Up Sequences, Email Drip Campaigns, Social Media Content Packs (12 posts/month), Proposal Generator, 30-Day Content Calendar, Business Bio Writer, and FAQ Generator. Everything you need to automate your entire workflow — one subscription. 9 tools in one subscription.',
       price: 29.00,
       category: 'custom',
       stripe_price_id_monthly: 'price_1TCNf8RMcin8b0U1APpuj8kC',
@@ -59,8 +59,8 @@ async function main() {
     },
     {
       slug: 'ai-lead-generator',
-      name: 'AI Lead Generator Bot',
-      description: 'Find and extract local business leads on autopilot. Search any city and niche, extract contact details including emails and phone numbers, and export to CSV instantly. Perfect for agencies, freelancers, and sales teams looking to fill their pipeline fast.',
+      name: 'AI Lead Generator',
+      description: 'Find hundreds of potential clients in minutes. Enter any business type and location — our AI searches Google\'s business database, pulls contact info, and writes a personalized outreach message for every lead. Export to CSV and start closing.',
       price: 79.00,
       category: 'marketing',
       stripe_price_id_once: 'price_1TCNf8RMcin8b0U1Z2bUcm2k',
@@ -68,8 +68,8 @@ async function main() {
     },
     {
       slug: 'ai-outreach-bot',
-      name: 'AI Outreach Message Bot',
-      description: 'Send personalized AI-written cold outreach emails at scale. Connect your email, define your target audience, and let the AI craft unique messages for each prospect. Get more replies, book more calls, and land more clients — all on autopilot.',
+      name: 'AI Outreach Bot',
+      description: 'Turn cold prospects into warm conversations. Input any business name and our AI crafts a professional cold email, an Instagram DM, and a follow-up message — all personalized, all ready to copy and send in one click.',
       price: 99.00,
       category: 'marketing',
       stripe_price_id_once: 'price_1TCNf8RMcin8b0U1BJyDqAOI',

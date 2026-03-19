@@ -145,7 +145,7 @@ export default function BotDetail() {
                 disabled={buying}
                 onClick={() => handleBuy('payment')}
               >
-                {buying ? 'Redirecting\u2026' : 'Buy Now'}
+                {buying ? 'Redirecting\u2026' : `Buy Now — $${Number(bot.price).toFixed(2)} (one-time)`}
               </button>
             </div>
           )}
@@ -164,7 +164,7 @@ export default function BotDetail() {
                 disabled={buying}
                 onClick={() => handleBuy('subscription')}
               >
-                {buying ? 'Redirecting\u2026' : 'Subscribe'}
+                {buying ? 'Redirecting\u2026' : `Subscribe — $${Number(bot.price).toFixed(2)}/month`}
               </button>
             </div>
           )}

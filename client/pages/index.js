@@ -12,36 +12,39 @@ import styles from '../styles/home.module.css';
 
 const FEATURED_BOTS = [
   {
-    id: 'ai-automation-suite',
-    name: 'AI Automation Suite',
-    slug: 'ai_automation_suite',
-    image: '/images/ai-automation-suite.png',
-    tag: 'Full Suite',
-    tagColor: '#4a9eff',
-    accent: '#4a9eff',
-    bullets: ['Automate Your Workflow', 'Save Hours of Work', 'Grow Your Business'],
-    featured: false,
-  },
-  {
     id: 'ai-lead-generator',
-    name: 'AI Lead Generator Bot',
-    slug: 'ai_lead',
+    name: 'AI Lead Generator',
+    slug: 'ai-lead-generator',
     image: '/images/ai-lead-generator.png',
     tag: 'Generate Leads',
     tagColor: '#00c896',
     accent: '#00c896',
-    bullets: ['Find Local Businesses', 'Extract Contacts', 'Export to CSV'],
+    bullets: ['Find Your Next Clients', 'Extract Contact Info', 'Export to CSV'],
+    price: '$79 one-time',
     featured: true,
   },
   {
     id: 'ai-outreach-bot',
-    name: 'AI Outreach Message Bot',
-    slug: 'ai_outreach',
+    name: 'AI Outreach Bot',
+    slug: 'ai-outreach-bot',
     image: '/images/ai-outreach-bot.png',
     tag: 'Cold Outreach',
     tagColor: '#ab47bc',
     accent: '#ab47bc',
-    bullets: ['Personalized Cold Emails', 'AI Written Outreach', 'Get More Clients'],
+    bullets: ['Cold Emails in Seconds', 'Instagram DM Templates', 'Close More Deals'],
+    price: '$99 one-time',
+    featured: false,
+  },
+  {
+    id: 'ai-automation-suite',
+    name: 'AI Automation Suite',
+    slug: 'ai-automation-suite',
+    image: '/images/ai-automation-suite.png',
+    tag: 'Full Suite',
+    tagColor: '#4a9eff',
+    accent: '#4a9eff',
+    bullets: ['9 Tools in One Plan', 'Automate Everything', 'Built for Growth'],
+    price: '$29/month',
     featured: false,
   },
 ];
@@ -146,32 +149,34 @@ function Hero() {
       <div className={styles.heroContent}>
         <div className={styles.heroBadge}>⚡ AI-Powered Automation</div>
         <h1 className={styles.heroTitle}>
-          <span className={styles.heroWhite}>Buy, Sell, and</span>
+          <span className={styles.heroWhite}>GlobeBotter</span>
           <br />
-          <span className={styles.heroGreen}>Deploy AI Bots</span>
+          <span className={styles.heroGreen}>AI-Powered Bots for</span>
+          <br />
+          <span className={styles.heroCyan}>Serious Business Growth</span>
         </h1>
         <p className={styles.heroSub}>
-          That <span className={styles.heroCyan}>Work For You</span> 24/7
+          Stop wasting hours on manual outreach, lead research, and content creation. Our AI bots work <span className={styles.heroCyan}>24/7</span> so you don&apos;t have to.
         </p>
         <div className={styles.heroBtns}>
-          <Link href="/marketplace" className={styles.btnBlue}>Explore Bots</Link>
-          <Link href="/register"    className={styles.btnGreen}>Start Selling</Link>
+          <Link href="/marketplace" className={styles.btnBlue}>Browse AI Bots</Link>
+          <Link href="/register"    className={styles.btnGreen}>Start Free Today</Link>
         </div>
         <div className={styles.featureHighlights}>
           <div className={styles.featureItem}>
             <span className={styles.featureIcon}>⚡</span>
-            <span className={styles.featureTitle}>Instant Results</span>
-            <span className={styles.featureDesc}>AI-generated in seconds, ready to copy &amp; send</span>
+            <span className={styles.featureTitle}>Instant AI Results</span>
+            <span className={styles.featureDesc}>Generate leads, outreach messages, and content in seconds</span>
           </div>
           <div className={styles.featureItem}>
             <span className={styles.featureIcon}>💰</span>
-            <span className={styles.featureTitle}>Lifetime Pricing</span>
-            <span className={styles.featureDesc}>Pay once, use forever. No hidden subscriptions.</span>
+            <span className={styles.featureTitle}>Lifetime Deals Available</span>
+            <span className={styles.featureDesc}>Pay once, own forever. No surprise subscription fees.</span>
           </div>
           <div className={styles.featureItem}>
-            <span className={styles.featureIcon}>🎯</span>
-            <span className={styles.featureTitle}>Built for Outreach</span>
-            <span className={styles.featureDesc}>Cold email, DM, lead gen — everything you need to grow</span>
+            <span className={styles.featureIcon}>🚀</span>
+            <span className={styles.featureTitle}>Built for Growth</span>
+            <span className={styles.featureDesc}>Used by agencies, freelancers, and entrepreneurs worldwide</span>
           </div>
         </div>
       </div>
@@ -182,7 +187,7 @@ function Hero() {
 function FeaturedBots() {
   return (
     <section className={styles.featured}>
-      <h2 className={styles.sectionTitle}>Our AI Automation Products</h2>
+      <h2 className={styles.sectionTitle}>Our AI Bots</h2>
 
       <div className={styles.featuredGrid}>
         {FEATURED_BOTS.map((bot) => (
@@ -212,8 +217,12 @@ function FeaturedBots() {
                 ))}
               </ul>
 
+              {bot.price && (
+                <p className={styles.botPrice} style={{ color: bot.accent }}>{bot.price}</p>
+              )}
+
               <span className={styles.viewBtn} style={{ background: bot.accent }}>
-                View Bot →
+                Get This Bot →
               </span>
             </div>
           </Link>
