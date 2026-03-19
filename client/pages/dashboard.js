@@ -87,25 +87,49 @@ function DashboardContent() {
         {tab === 'subscriptions' && (
           subscriptions.length === 0
             ? <p className={styles.empty}>No active subscriptions.</p>
-            : <div className={styles.grid}>
-                {subscriptions.map((s) => (
-                  <div key={s.id} className={styles.botCard}>
-                    <div className={styles.botCardTop}>
-                      <span className={styles.botEmoji}>🤖</span>
-                      <div>
-                        <p className={styles.botName}>{s.bot_name}</p>
-                        <span className={styles.catBadge}>{s.category}</span>
+            : <>
+                <div className={styles.grid}>
+                  {subscriptions.map((s) => (
+                    <div key={s.id} className={styles.botCard}>
+                      <div className={styles.botCardTop}>
+                        <span className={styles.botEmoji}>🤖</span>
+                        <div>
+                          <p className={styles.botName}>{s.bot_name}</p>
+                          <span className={styles.catBadge}>{s.category}</span>
+                        </div>
                       </div>
+                      <p className={styles.botMeta}>
+                        Renews {s.current_period_end ? new Date(s.current_period_end).toLocaleDateString() : '—'}
+                      </p>
+                      <span className={`${styles.statusTag} ${s.status === 'active' ? styles.statusActive : styles.statusInactive}`}>
+                        {s.status}
+                      </span>
                     </div>
-                    <p className={styles.botMeta}>
-                      Renews {s.current_period_end ? new Date(s.current_period_end).toLocaleDateString() : '—'}
-                    </p>
-                    <span className={`${styles.statusTag} ${s.status === 'active' ? styles.statusActive : styles.statusInactive}`}>
-                      {s.status}
-                    </span>
+                  ))}
+                </div>
+                {subscriptions && subscriptions.length > 0 && (
+                  <div style={{ marginTop: '1rem' }}>
+                    <button
+                      className={styles.manageBillingBtn}
+                      onClick={async () => {
+                        try {
+                          const res = await fetch(`${API}/api/payments/portal`, {
+                            method: 'POST',
+                            headers: authHeaders(),
+                          });
+                          const data = await res.json();
+                          if (data.url) window.location.href = data.url;
+                          else alert(data.error || 'Could not open billing portal.');
+                        } catch {
+                          alert('Network error. Please try again.');
+                        }
+                      }}
+                    >
+                      💳 Manage Billing
+                    </button>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
         )}
       </main>
     </div>

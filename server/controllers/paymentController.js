@@ -173,6 +173,25 @@ const getMyPurchases = async (req, res) => {
   }
 };
 
+// ── Stripe Customer Portal session ──────────────────────────────────────────
+const portalSession = async (req, res) => {
+  try {
+    const user_id = req.user.userId;
+    const user = await User.findById(user_id);
+    if (!user || !user.stripe_customer_id) {
+      return res.status(400).json({ error: 'No billing account found. Please make a purchase first.' });
+    }
+    const session = await stripe.billingPortal.sessions.create({
+      customer: user.stripe_customer_id,
+      return_url: `${process.env.CLIENT_URL}/dashboard`,
+    });
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error('Portal session error:', err);
+    res.status(500).json({ error: 'Could not open billing portal. Please try again.' });
+  }
+};
+
 // ── Check if user has access to a bot ───────────────────────────────────────
 const hasAccess = async (req, res) => {
   try {
@@ -194,4 +213,4 @@ const hasAccess = async (req, res) => {
   }
 };
 
-module.exports = { createCheckout, handleWebhook, getMyPurchases, hasAccess };
+module.exports = { createCheckout, handleWebhook, getMyPurchases, hasAccess, portalSession };
