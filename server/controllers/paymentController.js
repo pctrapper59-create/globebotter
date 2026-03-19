@@ -6,6 +6,7 @@
  * GET  /api/payments/my         → buyer's purchases + subscriptions
  */
 const stripe       = require('../config/stripe');
+const pool         = require('../config/db');
 const Bot          = require('../models/Bot');
 const Purchase     = require('../models/Purchase');
 const Subscription = require('../models/Subscription');
@@ -110,7 +111,15 @@ const handleWebhook = async (req, res) => {
             stripe_price_id: sub.items.data[0].price.id,
             period_start: new Date(sub.current_period_start * 1000),
             period_end:   new Date(sub.current_period_end   * 1000),
-          });
+          }); // returns null on duplicate — that's OK, idempotent
+        }
+
+        // Backfill stripe_customer_id if not yet set
+        if (session.customer) {
+          await pool.query(
+            'UPDATE users SET stripe_customer_id = $1 WHERE id = $2 AND stripe_customer_id IS NULL',
+            [session.customer, user_id]
+          );
         }
 
         // Send purchase confirmation email — non-blocking, never fails the webhook
@@ -164,6 +173,25 @@ const getMyPurchases = async (req, res) => {
   }
 };
 
+// ── Stripe Customer Portal session ──────────────────────────────────────────
+const portalSession = async (req, res) => {
+  try {
+    const user_id = req.user.userId;
+    const user = await User.findById(user_id);
+    if (!user || !user.stripe_customer_id) {
+      return res.status(400).json({ error: 'No billing account found. Please make a purchase first.' });
+    }
+    const session = await stripe.billingPortal.sessions.create({
+      customer: user.stripe_customer_id,
+      return_url: `${process.env.CLIENT_URL}/dashboard`,
+    });
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error('Portal session error:', err);
+    res.status(500).json({ error: 'Could not open billing portal. Please try again.' });
+  }
+};
+
 // ── Check if user has access to a bot ───────────────────────────────────────
 const hasAccess = async (req, res) => {
   try {
@@ -181,8 +209,8 @@ const hasAccess = async (req, res) => {
     res.json({ hasAccess: owns || subscribed });
   } catch (err) {
     console.error('hasAccess error:', err);
-    res.status(500).json({ error: 'Server error' });
+    return res.status(200).json({ hasAccess: false });
   }
 };
 
-module.exports = { createCheckout, handleWebhook, getMyPurchases, hasAccess };
+module.exports = { createCheckout, handleWebhook, getMyPurchases, hasAccess, portalSession };

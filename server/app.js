@@ -7,6 +7,7 @@
  */
 const express = require('express');
 const cors    = require('cors');
+const helmet  = require('helmet');
 
 const authRoutes    = require('./routes/auth');
 const botRoutes     = require('./routes/bots');
@@ -17,9 +18,29 @@ const botRunRoutes     = require('./routes/botRun');
 const leadsRoutes      = require('./routes/leads');
 const outreachRoutes   = require('./routes/outreach');
 
+const allowedOrigins = require('./config/allowedOrigins');
+const { authLimiter, aiLimiter, generalLimiter } = require('./middleware/rateLimiter');
+
 const app = express();
 
-app.use(cors());
+// Trust proxy for rate limiting behind Netlify Functions
+app.set('trust proxy', 1);
+
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (curl, Postman, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
+  credentials: false,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  maxAge: 86400,
+}));
 
 // Stripe webhook needs the raw body — mount BEFORE express.json()
 app.use(
@@ -28,6 +49,13 @@ app.use(
 );
 
 app.use(express.json());
+
+// Apply rate limiters BEFORE route mounts
+app.use('/api/auth', authLimiter);
+app.use('/api/leads', aiLimiter);
+app.use('/api/outreach', aiLimiter);
+app.use('/api/automation', aiLimiter);
+app.use('/api', generalLimiter);
 
 // Routes
 app.use('/api/auth',     authRoutes);
