@@ -9,10 +9,11 @@ const create = async ({ user_id, bot_id, stripe_subscription_id, stripe_price_id
        (user_id, bot_id, stripe_subscription_id, stripe_price_id,
         current_period_start, current_period_end, status)
      VALUES ($1, $2, $3, $4, $5, $6, 'active')
+     ON CONFLICT (stripe_subscription_id) DO NOTHING
      RETURNING *`,
     [user_id, bot_id, stripe_subscription_id, stripe_price_id, period_start, period_end]
   );
-  return result.rows[0];
+  return result.rows[0] || null;
 };
 
 const updateStatus = async (stripe_subscription_id, status, extra = {}) => {
