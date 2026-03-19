@@ -94,7 +94,9 @@ export default function BotDetail() {
   }
 
   const features = CATEGORY_FEATURES[bot.category] ?? ['Advanced automation', 'Easy setup', 'Dedicated support'];
-  const monthlyPrice = Number(bot.price * 0.4).toFixed(2);
+  const pricingModel = bot.pricing_model || 'both';
+  const showOnce = pricingModel === 'once' || pricingModel === 'both';
+  const showSub  = pricingModel === 'subscription' || pricingModel === 'both';
 
   return (
     <div className={styles.page}>
@@ -130,36 +132,42 @@ export default function BotDetail() {
           </ul>
         </div>
 
-        {/* Purchase options */}
+        {/* Purchase options — rendered based on pricing_model */}
         <div className={styles.options}>
-          <div className={styles.optionCard}>
-            <p className={styles.optionLabel}>One-Time Purchase</p>
-            <p className={styles.optionPrice}>${Number(bot.price).toFixed(2)}</p>
-            <p className={styles.optionNote}>Lifetime access &middot; no recurring charge</p>
-            <button
-              className={styles.btnBuy}
-              disabled={buying}
-              onClick={() => handleBuy('payment')}
-            >
-              {buying ? 'Redirecting\u2026' : 'Buy Now'}
-            </button>
-          </div>
+          {showOnce && (
+            <div className={`${styles.optionCard} ${!showSub ? styles.optionCardSolo : ''}`}>
+              {!showSub && <div className={styles.popularBadge}>Best Value</div>}
+              <p className={styles.optionLabel}>One-Time Purchase</p>
+              <p className={styles.optionPrice}>${Number(bot.price).toFixed(2)}</p>
+              <p className={styles.optionNote}>Lifetime access &middot; no recurring charge</p>
+              <button
+                className={styles.btnBuy}
+                disabled={buying}
+                onClick={() => handleBuy('payment')}
+              >
+                {buying ? 'Redirecting\u2026' : 'Buy Now'}
+              </button>
+            </div>
+          )}
 
-          <div className={`${styles.optionCard} ${styles.optionCardSub}`}>
-            <div className={styles.popularBadge}>Most Popular</div>
-            <p className={styles.optionLabel}>Monthly Subscription</p>
-            <p className={styles.optionPrice}>
-              ${monthlyPrice}<span className={styles.mo}>/mo</span>
-            </p>
-            <p className={styles.optionNote}>Cancel anytime &middot; always up-to-date</p>
-            <button
-              className={styles.btnSub}
-              disabled={buying}
-              onClick={() => handleBuy('subscription')}
-            >
-              {buying ? 'Redirecting\u2026' : 'Subscribe'}
-            </button>
-          </div>
+          {showSub && (
+            <div className={`${styles.optionCard} ${styles.optionCardSub} ${!showOnce ? styles.optionCardSolo : ''}`}>
+              {showOnce && <div className={styles.popularBadge}>Most Popular</div>}
+              {!showOnce && <div className={styles.popularBadge}>Monthly Access</div>}
+              <p className={styles.optionLabel}>Monthly Subscription</p>
+              <p className={styles.optionPrice}>
+                ${Number(bot.price).toFixed(2)}<span className={styles.mo}>/mo</span>
+              </p>
+              <p className={styles.optionNote}>Cancel anytime &middot; always up-to-date</p>
+              <button
+                className={styles.btnSub}
+                disabled={buying}
+                onClick={() => handleBuy('subscription')}
+              >
+                {buying ? 'Redirecting\u2026' : 'Subscribe'}
+              </button>
+            </div>
+          )}
         </div>
 
         {error && <p className={styles.error}>{error}</p>}

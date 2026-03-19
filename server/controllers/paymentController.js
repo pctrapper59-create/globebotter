@@ -164,4 +164,25 @@ const getMyPurchases = async (req, res) => {
   }
 };
 
-module.exports = { createCheckout, handleWebhook, getMyPurchases };
+// ── Check if user has access to a bot ───────────────────────────────────────
+const hasAccess = async (req, res) => {
+  try {
+    const user_id = req.user.userId;
+    const { bot_id } = req.params;
+
+    const bot = await Bot.findById(bot_id);
+    if (!bot) return res.status(404).json({ error: 'Bot not found' });
+
+    const [owns, subscribed] = await Promise.all([
+      Purchase.userOwnsBot(user_id, bot.id),
+      Subscription.userHasActive(user_id, bot.id),
+    ]);
+
+    res.json({ hasAccess: owns || subscribed });
+  } catch (err) {
+    console.error('hasAccess error:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+module.exports = { createCheckout, handleWebhook, getMyPurchases, hasAccess };

@@ -5,7 +5,7 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '../../components/Navbar';
-import ProtectedRoute from '../../components/ProtectedRoute';
+import PurchasedBotRoute from '../../components/PurchasedBotRoute';
 import { authHeaders } from '../../lib/auth';
 import styles from '../../styles/leadBot.module.css';
 
@@ -363,8 +363,8 @@ function LeadBotContent() {
 
 export default function AILeadGeneratorPage() {
   return (
-    <ProtectedRoute>
+    <PurchasedBotRoute botSlug="ai-lead-generator">
       <LeadBotContent />
-    </ProtectedRoute>
+    </PurchasedBotRoute>
   );
 }

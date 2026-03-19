@@ -7,12 +7,13 @@
 const express    = require('express');
 const router     = express.Router();
 const authenticate = require('../middleware/auth');
-const { createCheckout, handleWebhook, getMyPurchases } = require('../controllers/paymentController');
+const { createCheckout, handleWebhook, getMyPurchases, hasAccess } = require('../controllers/paymentController');
 
 // Webhook must receive raw body — handled in app.js with express.raw()
 router.post('/webhook', handleWebhook);
 
-router.post('/checkout', authenticate, createCheckout);
-router.get('/my',        authenticate, getMyPurchases);
+router.post('/checkout',          authenticate, createCheckout);
+router.get('/my',                 authenticate, getMyPurchases);
+router.get('/has-access/:bot_id', authenticate, hasAccess);
 
 module.exports = router;
