@@ -28,7 +28,7 @@ describe('POST /api/auth/register', () => {
 
     const res = await request(app)
       .post('/api/auth/register')
-      .send({ name: 'Alice', email: 'alice@test.com', password: 'password123' });
+      .send({ name: 'Alice', email: 'alice@test.com', password: 'Password1!' });
 
     expect(res.status).toBe(201);
     expect(res.body.token).toBeDefined();
@@ -42,7 +42,7 @@ describe('POST /api/auth/register', () => {
       .send({ email: 'alice@test.com' }); // missing name + password
 
     expect(res.status).toBe(400);
-    expect(res.body.error).toBe('All fields required');
+    expect(res.body.error).toBe('Validation failed');
   });
 
   test('rejects registration when email is already taken', async () => {
@@ -50,7 +50,7 @@ describe('POST /api/auth/register', () => {
 
     const res = await request(app)
       .post('/api/auth/register')
-      .send({ name: 'Alice', email: 'alice@test.com', password: 'password123' });
+      .send({ name: 'Alice', email: 'alice@test.com', password: 'Password1!' });
 
     expect(res.status).toBe(409);
     expect(res.body.error).toBe('Email already registered');
@@ -115,7 +115,7 @@ describe('POST /api/auth/login', () => {
       .send({ email: 'alice@test.com' }); // missing password
 
     expect(res.status).toBe(400);
-    expect(res.body.error).toBe('Email and password required');
+    expect(res.body.error).toBe('Validation failed');
   });
 });
 
